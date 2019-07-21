@@ -60,18 +60,25 @@ public class JSONParser extends AppCompatActivity {
                 String paramString = URLEncodedUtils.format(params, "utf-8");
                 url += "?" + paramString;
                 HttpGet httpGet = new HttpGet(url);
-
+                Log.e("Buffer Error", "Error url " + url);
+                Log.e("Buffer Error", "Error httpget "+httpGet );
                 HttpResponse httpResponse = httpClient.execute(httpGet);
+                Log.e("Buffer Error", "Error response"+httpResponse );
                 HttpEntity httpEntity = httpResponse.getEntity();
+                Log.e("Buffer Error", "Error client"+httpClient );
                 is = httpEntity.getContent();
+                Log.e("Buffer Error", "Error is"+is );
             }
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            Log.e("Buffer Error", "Error 1" );
         } catch (ClientProtocolException e) {
             e.printStackTrace();
+            Log.e("Buffer Error", "Error 2" );
         } catch (IOException e) {
             e.printStackTrace();
+            Log.e("Buffer Error", "Error 3" );
         }
 
         try {

@@ -4,23 +4,31 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog pd;
     JSONParser jparser = new JSONParser();
+    JSONObject json;
     JSONArray s = null;
     String companyname;
-    private static String url = "http://my-json-server.typicode.com/mohiyaaa/test/connection.php";
+    HttpResponse response;
+    String Json;
+    private static String url = "http://192.168.233.1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,16 +48,27 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            List<NameValuePair> prm = new ArrayList<NameValuePair>(); // Building Parameters
-            // getting JSON string from URL
-            JSONObject json = jparser.makeHttpRequest(url, "GET", prm);
-
+            HttpClient myClient = new DefaultHttpClient();
+            HttpPost myConnection = new HttpPost("http://192.168.233.1");
 
             try {
-                int t = json.getInt("t");
-
+                response = myClient.execute(myConnection);
+                Log.e("Buffer Error", "Error response " + response);
+                Json = EntityUtils.toString(response.getEntity(), "UTF-8");
+                Log.e("Buffer Error", "Error Json " + Json);
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+                Log.e("Buffer Error", "Error company 1" );
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("Buffer Error", "Error company 2" );
+            }
+            try {
+                JSONObject j=new JSONObject(Json);
+                int t = j.getInt("t");
+                Log.e("Buffer Error", "Error t "+t );
                 if (t==1){
-                    s=json.getJSONArray("travel");
+                    s=j.getJSONArray("travel");
                     for (int i=0;i<s.length();i++){
                         JSONObject c=s.getJSONObject(i);
                          companyname=c.getString("name");
