@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pd;
     JSONParser jparser = new JSONParser();
     JSONArray s = null;
-    String companyname="";
+    String companyname;
     private static String url = "http://my-json-server.typicode.com/mohiyaaa/test/connection.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +34,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             pd = new ProgressDialog(MainActivity.this);
-            pd.setMessage("login");
+            pd.setMessage("login babyyyyyyyyyy:)");
             pd.show();
         }
 
         @Override
         protected String doInBackground(String... params) {
             List<NameValuePair> prm = new ArrayList<NameValuePair>(); // Building Parameters
-
             // getting JSON string from URL
             JSONObject json = jparser.makeHttpRequest(url, "GET", prm);
 
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-
             }
 
 
